@@ -13,7 +13,7 @@ jobs:
 
       - name: Fetch data and update file
         run: |
-          curl -s "https://example.com" > data.txt
+          curl -s "https://easylist-downloads.adblockplus.org/v3/full/" > ruadlist+easylist.txt
           # Или если данные в json: curl -s "URL" | jq '.key' > data.txt
 
       - name: Commit and push changes

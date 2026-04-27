@@ -1,1 +1,25 @@
+name: RU-UA-UZ-KZ+EasyList
+on:
+  schedule:
+    - cron: '0 0 * * *' # Запускать каждый день в полночь
+  workflow_dispatch: # Позволяет запускать вручную
 
+jobs:
+  update-file:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Fetch data and update file
+        run: |
+          curl -s "https://easylist-downloads.adblockplus.org/v3/full/ruadlist+easylist.txt" > ruadlist+easylist.txt
+          # Или если данные в json: curl -s "URL" | jq '.key' > ruadlist+easylist.txt
+
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add ruadlist+easylist.txt
+          git diff --quiet && git diff --staged --quiet || git commit -m "Update ruadlist+easylist.txt"
+          git push
